@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django
+db.sqlite3
+media/
+staticfiles/
+
+# Виртуальное окружение
+venv/
+ENV/
+env/
+.venv/
+
+# Логи и кэш
+*.log
+.cache/
+.coverage
+.pytest_cache/
+/celerybeat-schedule
+/debug.log
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Файлы операционной системы
+.DS_Store
+Thumbs.db
+
+# Конфиденциальные данные
+.env
+.env.local
+.secret_key
+*.key
+*.pem
+
+# Build артефакты
+dist/
+build/
+*.egg-info/
+*.egg
+*.whl
+
+# Celery
+celerybeat-schedule*
+
+# Migrations (опционально)
+# Если вы хотите игнорировать миграции, раскомментируйте следующие строки:
+# migrations/
+# !migrations/__init__.py
+
+# Загруженные файлы (если используются)
+/uploads/
