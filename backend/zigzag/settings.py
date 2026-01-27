@@ -68,11 +68,11 @@ WSGI_APPLICATION = "zigzag.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("DB_NAME", default="modelhub"),
-        "USER": config("DB_USER", default="password"),
-        "PASSWORD": config("DB_PASS", default="password"),
+        "NAME": config("DB_NAME", default="trading_db"),
+        "USER": config("DB_USER", default="trader"),
+        "PASSWORD": config("DB_PASS", default="vyjujltytu"),
         "HOST": config("DB_HOST", default="localhost"),
-        "PORT": config("DB_PORT", default="5432"),
+        "PORT": config("DB_PORT", default="5433"),
         "ATOMIC_REQUESTS": True,
     }
 }
