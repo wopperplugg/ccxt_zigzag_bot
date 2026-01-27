@@ -56,3 +56,5 @@ celerybeat-schedule*
 
 # Загруженные файлы (если используются)
 /uploads/
+data/
+redisdata/
