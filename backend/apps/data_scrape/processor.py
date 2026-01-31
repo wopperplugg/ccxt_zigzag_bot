@@ -2,7 +2,7 @@ import asyncio
 import logging
 from datetime import datetime, timedelta
 from typing import List
-from interfaces import IDataFetcher, IDataStorage
+from .interfaces import IDataFetcher, IDataStorage
 
 # Настройка логирования
 logger = logging.getLogger(__name__)
@@ -83,7 +83,7 @@ class DataProcessor:
             try:
                 data = await self.fetcher.fetch_realtime_data(symbol, timeframe)
                 if data:
-                    await self.storage.save_data(
+                    await self.storage.save_realtime_data(
                         symbol, timeframe, data
                     )  # Универсальный метод
                     retries = 0  # СБРОС СЧЕТЧИКА после успеха

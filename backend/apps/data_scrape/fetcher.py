@@ -2,7 +2,7 @@ import asyncio
 import ccxt.pro as ccxt
 from datetime import datetime
 from typing import List, Dict
-from interfaces import IDataFetcher
+from .interfaces import IDataFetcher
 import logging
 
 logging.basicConfig(
@@ -40,7 +40,6 @@ class RestAPIFetcher(IDataFetcher):
                 logging.error(f"Ошибка при получении истории {symbol}: {e}")
                 break
 
-        await self.exchange.close()
         return all_candles
 
     async def fetch_realtime_data(self, symbol, timeframe):

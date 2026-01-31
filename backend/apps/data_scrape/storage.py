@@ -3,18 +3,9 @@ from django.db import connection
 from asgiref.sync import sync_to_async
 from datetime import datetime
 from typing import List
-from interfaces import IDataStorage
-
-
-class OHLCV:
-    symbol = str
-    timeframe = str
-    candle_time = datetime
-    open = Decimal
-    high = Decimal
-    low = Decimal
-    close = Decimal
-    volume = Decimal
+from .interfaces import IDataStorage
+from ..api.models import OHLCV
+from django.utils import timezone
 
 
 class DatabaseStorage(IDataStorage):
@@ -29,7 +20,7 @@ class DatabaseStorage(IDataStorage):
             OHLCV(
                 symbol=symbol,
                 timeframe=timeframe,
-                candle_time=datetime.fromtimestamp(data[0] / 1000),
+                candle_time=timezone.make_aware(datetime.fromtimestamp(data[0] / 1000)),
                 open=Decimal(str(data[1])),
                 high=Decimal(str(data[2])),
                 low=Decimal(str(data[3])),
@@ -50,7 +41,9 @@ class DatabaseStorage(IDataStorage):
         with connection.cursor() as cursor:
             for data in ohlcv_data:
                 timestamp_ms = data[0]
-                candle_time = datetime.fromtimestamp(timestamp_ms / 1000)
+                candle_time = timezone.make_aware(
+                    datetime.fromtimestamp(data[0] / 1000)
+                )
                 open_price, high_price, low_price, close_price, volume = data[1:6]
 
                 cursor.execute(
