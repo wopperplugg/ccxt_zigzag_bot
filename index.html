@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+  <head>
+    <title>WebSocket Test</title>
+  </head>
+  <body>
+    <h1>WebSocket Connection Test</h1>
+    <div id="messages"></div>
+    <input
+      type="text"
+      id="symbolInput"
+      placeholder="Введите символ (например: BTC-USDT)"
+      value="BTC-USDT"
+    />
+    <button onclick="connectWS()">Подключить</button>
+    <button onclick="sendSubscribe()">Отправить Subscribe</button>
+
+    <script>
+      let ws = null;
+
+      function logMessage(message) {
+        const div = document.createElement("div");
+        div.textContent = message;
+        document.getElementById("messages").appendChild(div);
+        console.log(message);
+      }
+
+      function connectWS() {
+        if (ws) {
+          ws.close();
+        }
+
+        const symbol = document.getElementById("symbolInput").value;
+        const wsUrl = `ws://localhost:8001/ws/ohlcv/${symbol}/1h/`;
+        logMessage(`Подключаюсь к: ${wsUrl}`);
+
+        ws = new WebSocket(wsUrl);
+
+        ws.onopen = function (event) {
+          logMessage("✅ Соединение установлено!");
+        };
+
+        ws.onmessage = function (event) {
+          logMessage("📥 Получено сообщение: " + event.data);
+        };
+
+        ws.onerror = function (error) {
+          logMessage("❌ Ошибка: " + error);
+        };
+
+        ws.onclose = function (event) {
+          logMessage(
+            "🔌 Соединение закрыто. Код: " +
+              event.code +
+              ", причина: " +
+              event.reason,
+          );
+        };
+      }
+
+      function sendSubscribe() {
+        if (ws && ws.readyState === WebSocket.OPEN) {
+          ws.send(JSON.stringify({ action: "subscribe" }));
+          logMessage("📤 Отправлен subscribe запрос");
+        } else {
+          logMessage("⚠️ WebSocket не подключен");
+        }
+      }
+    </script>
+  </body>
+</html>

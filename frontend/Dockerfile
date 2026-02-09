@@ -3,8 +3,10 @@ FROM node:25-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json package-lock.json ./
+
 
 RUN npm install
 
-CMD ["npm", "start"] 
+COPY . ./
+CMD ["npm", "run", "dev"] 

@@ -3,9 +3,9 @@ from celery import Celery
 from django.conf import settings
 
 # Устанавливаем переменную окружения для настроек Django
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "zigzag.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "conf.settings")
 
-app = Celery("zigzag")
+app = Celery("conf")
 
 # Загружаем настройки из settings.py (префикс CELERY_)
 app.config_from_object("django.conf:settings", namespace="CELERY")

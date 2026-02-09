@@ -22,11 +22,14 @@ DJANGO_APPS = [
 ]
 
 THIRD_PATY_APPS = [
+    "channels",
     "rest_framework",
     "corsheaders",
 ]
 LOCAL_APPS = [
     "apps.api",
+    "apps.trading_tools",
+    "apps.websocket",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PATY_APPS + LOCAL_APPS
@@ -42,7 +45,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "zigzag.urls"
+ROOT_URLCONF = "conf.urls"
 
 TEMPLATES = [
     {
@@ -59,8 +62,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "zigzag.wsgi.application"
-
+WSGI_APPLICATION = "conf.wsgi.application"
+ASGI_APPLICATION = "conf.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
@@ -168,3 +171,22 @@ LOGGING = {
         },
     },
 }
+
+# websocket
+if DEBUG:
+    # Для разработки используем InMemory
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer",
+        },
+    }
+else:
+    # Для продакшена используем Redis
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [("127.0.0.1", 6379)],
+            },
+        },
+    }
